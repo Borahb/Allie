@@ -121,7 +121,7 @@ async def on_message(message):
   await general_channel.send(results)
          
                           
-client.run('ODAzODY1OTg4NzU1NzUwOTQy.YBEAig.ZE7ZAa1Eo6pUBa7f14_MKYEXU5c') 
+client.run(API_KEY) 
         
         
         
