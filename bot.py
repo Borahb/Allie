@@ -1,32 +1,27 @@
+#importing libraries
 import pickle
 import nltk
 from nltk.stem import WordNetLemmatizer
 lemmatizer = WordNetLemmatizer()
 import numpy as np
 from keras.models import load_model
-model = load_model('chatbot_model.h5')
 import json
 import random
-import speech_recognition as sr
-lis = sr.Recognizer()
-
-
 import discord
-import os
 import requests
 import nest_asyncio
 nest_asyncio.apply()
 
 
 
-
-
-
-
+#Dependencies
+model = load_model('chatbot_model.h5')
 intents = json.loads(open('intents.json').read())
 words = pickle.load(open('words.pkl','rb'))
 classes = pickle.load(open('classes.pkl','rb'))
 
+
+#preprocessing input data 
 
 def clean_up_sentence(sentence):
     sentence_words = nltk.word_tokenize(sentence)
@@ -73,39 +68,20 @@ def getResponse(ints, intents_json):
 
 def chatbot_response(msg):
     ints = predict_class(msg, model)
+    if not ints:
+        return "Sorry, I do not understand"
     res = getResponse(ints, intents)
     return res
 
 
-
-#def chat():
- #    print("Start talking with the bot (type quit to stop)!")
-#       while True:
-#         inp = input("You:")
-#         if inp.lower() == "quit":
-#            break
-#         results = chatbot_response(inp)
-#         print(results)
-        
-#chat()
-
-#def voice_input():           
-#    with sr.Microphone() as source:
-#        print('listening.....')
-#        voice = lis.listen(source)
-#        command = lis.recognize_google(voice)
-#        print(command)
-
-#voice_input()   
-      
-        
+  #---------------------------Discord_Client-----------------------------------------------     
         
 client = discord.Client()    
 
 @client.event
 async def on_ready():
   print('We have logged in !')
-  general_channel = client.get_channel(803876773360041997)
+  general_channel = client.get_channel(CHANNEL_ID)
   await general_channel.send('Hello Everyone !')
   
   

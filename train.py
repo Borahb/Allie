@@ -1,3 +1,4 @@
+#importing libraries
 import nltk
 #nltk.download('punkt')
 #nltk.download('wordnet')
@@ -5,12 +6,12 @@ from nltk.stem import WordNetLemmatizer
 lemmatizer = WordNetLemmatizer()
 import json
 import pickle
-
 import numpy as np
 from keras.models import Sequential
 from keras.layers import Dense, Activation, Dropout
 from keras.optimizers import SGD
 import random
+
 
 words=[]
 classes = []
@@ -19,6 +20,7 @@ ignore_words = ['?', '!']
 data_file = open('intents.json').read()
 intents = json.loads(data_file)
 
+#preprocessing data
 
 for intent in intents['intents']:
     for pattern in intent['patterns']:
@@ -38,11 +40,9 @@ words = sorted(list(set(words)))
 
 classes = sorted(list(set(classes)))
 
-print (len(documents), "documents")
-
-print (len(classes), "classes", classes)
-
-print (len(words), "unique lemmatized words", words)
+#print (len(documents), "documents")
+#print (len(classes), "classes", classes)
+#print (len(words), "unique lemmatized words", words)
 
 
 pickle.dump(words,open('words.pkl','wb'))
@@ -56,8 +56,11 @@ for doc in documents:
     bag = []
     # list of tokenized words for the pattern
     pattern_words = doc[0]
+
     # lemmatize each word - create base word, in attempt to represent related words
+
     pattern_words = [lemmatizer.lemmatize(word.lower()) for word in pattern_words]
+
     # create our bag of words array with 1, if word match found in current pattern
     for w in words:
         bag.append(1) if w in pattern_words else bag.append(0)
@@ -73,7 +76,7 @@ for doc in documents:
 random.shuffle(training)
 training = np.array(training)
 
-# create train and test lists. X - patterns, Y - intents
+# creating train and test lists. X - patterns, Y - intents
 train_x = list(training[:,0])
 train_y = list(training[:,1])
 print("Training data created")
