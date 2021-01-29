@@ -18,7 +18,7 @@ Allie is launced into my discord server
 ## TODO
 
 - Implement Speech Recognition
-- Implemrnt Text to Speech (To give Allie a voice of its own)
+- Implement Text to Speech (To give Allie a voice of its own)
 - To make it more interactive
 
 ## Contribution
